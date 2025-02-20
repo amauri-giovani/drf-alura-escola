@@ -1,4 +1,5 @@
 from rest_framework import viewsets, generics, filters
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from escola.models import Estudante, Curso, Matricula
 from escola.serializers import (
@@ -63,6 +64,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class MatriculaViewSet(viewsets.ModelViewSet):

@@ -1,0 +1,84 @@
+Adicionando Swagger
+
+pip install drf-yasg
+Seguir documentação
+
+Em urls.py, antes de router = routers.DefaultRouter() e urlpatterns = [...
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Documentação da API",
+      default_version='v1',
+      description="Documentação da API",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True
+)
+
+Se ao rodar o servidor, surgir um problema, isso provavelmente resolverá
+pip install --upgrade setuptools
+
+
+
+CRIANDO DOCUMENTAÇÃO COM SPHINX
+===============================
+
+Em um novo diretório, crie um arquivo chamado README.rst com o seguinte conteúdo.
+--------------------------------------------------------------------------------
+Lumache
+=======
+
+**Lumache** (/lu'make/) is a Python library for cooks and food lovers that
+creates recipes mixing random ingredients.
+--------------------------------------------------------------------------------
+
+Instalação
+pip install sphinx
+
+Criando estrutura de pastas e arquivos
+sphinx-quickstart docs
+
+Isto apresentará a você uma série de perguntas necessárias para criar o diretório básico e o layout de
+configuração do seu projeto dentro da pasta docs. Para prosseguir, responda a cada pergunta da seguinte forma:
+
+> Separar os diretórios de origem e de construção (y/n) [n]: Escreva “y” (sem aspas) e pressione Enter.
+> Nome do projeto: Escreva “Lumache” (sem aspas) e pressione Enter.
+> Nome(s) de autor(es): Escreva “Graziella” (sem aspas) e pressione Enter.
+> Lançamento do projeto []: Escreva “0.1” (sem aspas) e pressione Enter.
+> Idioma do projeto [en]: Deixe vazio (o padrão, inglês) e pressione Enter.
+
+Após a última pergunta, você verá o novo diretório docs
+
+Renderizar pela primeira vez
+sphinx-build -M html docs/source/ docs/build/
+
+E finalmente, abra docs/build/html/index.html em seu navegador.
+
+Modifique o arquivo 'docs/source/index.rst' da seguinte forma:
+
+--------------------------------------------------------------------------------
+Welcome to Lumache's documentation!
+===================================
+
+**Lumache** (/lu'make/) is a Python library for cooks and food lovers that
+creates recipes mixing random ingredients.  It pulls data from the `Open Food
+Facts database <https://world.openfoodfacts.org/>`_ and offers a *simple* and
+*intuitive* API.
+
+.. note::
+
+   This project is under active development.
+--------------------------------------------------------------------------------
+
+No terminal:
+cd docs
+make html
+
+As páginas HTML estão em build/html.
+Abra docs/build/html/index.html no navegador e verá as mudanças feitas no arquivo
+
