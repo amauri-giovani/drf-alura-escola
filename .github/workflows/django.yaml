@@ -31,3 +31,7 @@ jobs:
       - name: Verificar se o Django está ok
         run: |
           python manage.py check
+
+      - name: Rodar testes
+        run: |
+          pytest

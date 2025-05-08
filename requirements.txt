@@ -8,5 +8,6 @@ drf-yasg==1.21.8
 Faker==33.0.0
 ipython==8.29.0
 Markdown==3.7
+pytest==8.3.5
 setuptools==75.6.0
 validate-docbr==1.10.0
