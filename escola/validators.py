@@ -1,5 +1,13 @@
-def cpf_invalido(cpf):
-    return not len(cpf) == 11
+import re
+from validate_docbr import CPF
+
+
+def cpf_invalido(num_cpf):
+    # vamos usar a lib validate-docbr
+    # return not len(cpf) == 11
+    cpf = CPF(num_cpf)
+    cpf_valido = cpf.validate(num_cpf)
+    return not cpf_valido
 
 
 def nome_invalido(nome):

@@ -1,10 +1,9 @@
 from rest_framework import viewsets, generics, filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from escola.models import Estudante, Curso, Matricula
 from escola.serializers import (
     EstudanteSerializer, CursoSerializer, MatriculaSerializer,
-    ListaMatriculasCursoSerializer, ListaMatriculasEstudanteSerializer
+    ListaMatriculasCursoSerializer, ListaMatriculasEstudanteSerializer, EstudanteSerializerV2
 )
 # Como inserimos no settings o REST_FRAMEWORK = {...}, não precisamos dessas configurações dentro de cada view
 # from rest_framework.authentication import BasicAuthentication
@@ -62,9 +61,15 @@ class CursoViewSet(viewsets.ModelViewSet):
     """
     # authentication_classes = [BasicAuthentication]
     # permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Curso.objects.all()
+    # queryset = Curso.objects.all().order_by('descricao')
+    queryset = Curso.objects.all().order_by('id')
     serializer_class = CursoSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+# Criamos uma nova classe sobrescrevendo AnonRateThrottle para
+# mudar a quantidade de requisições/dia (configurada no settings)
+class MatriculaAnonRateThrottle(AnonRateThrottle):
+    rate = '5/day'
 
 
 class MatriculaViewSet(viewsets.ModelViewSet):
@@ -81,7 +86,8 @@ class MatriculaViewSet(viewsets.ModelViewSet):
     """
     # authentication_classes = [BasicAuthentication]
     # permission_classes = [IsAdminUser]
-    queryset = Matricula.objects.all()
+    # queryset = Matricula.objects.all().order_by('periodo')
+    queryset = Matricula.objects.all().order_by('id')
     serializer_class = MatriculaSerializer
     # permissão diferente do padrão configurada no settings
     throttle_classes = [MatriculaAnonRateThrottle, UserRateThrottle]
@@ -99,7 +105,7 @@ class ListaMatriculaEstudante(generics.ListAPIView):
     # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Matricula.objects.filter(estudante_id=self.kwargs['pk'])
+        queryset = Matricula.objects.filter(estudante_id=self.kwargs['pk']).order_by('id')
         return queryset
     serializer_class = ListaMatriculasEstudanteSerializer
 
@@ -115,6 +121,6 @@ class ListaMatriculaCurso(generics.ListAPIView):
     # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Matricula.objects.filter(curso_id=self.kwargs['pk'])
+        queryset = Matricula.objects.filter(curso_id=self.kwargs['pk']).order_by('id')
         return queryset
     serializer_class = ListaMatriculasCursoSerializer
