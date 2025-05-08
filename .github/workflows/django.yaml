@@ -31,3 +31,13 @@ jobs:
       - name: Rodar testes com pytest
         run: |
           pytest
+
+      - name: Rodar testes com coverage
+        run: |
+          coverage run -m pytest
+          coverage report -m
+
+      - name: Verificar mínimo de cobertura
+        run: |
+          coverage run -m pytest
+          coverage report --fail-under=85
