@@ -9,5 +9,6 @@ Faker==33.0.0
 ipython==8.29.0
 Markdown==3.7
 pytest==8.3.5
+pytest-django==4.11.1
 setuptools==75.6.0
 validate-docbr==1.10.0
